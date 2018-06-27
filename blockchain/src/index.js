@@ -1,9 +1,9 @@
 import './core/logger/prettifyConsoleLog'
 
-import { serve } from './core/server/serve'
-import { setup } from './core/graphql/setup'
+import * as server from './core/server/serve'
+import * as graphql from './core/graphql/setup'
 import * as api from './api'
 
-serve(app => {
-  setup(app, api)
+server.serve(app => {
+  graphql.setup(app, api)
 })

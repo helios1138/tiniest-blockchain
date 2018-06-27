@@ -4,7 +4,7 @@ import cors from 'cors'
 import compression from 'compression'
 import { createLogger } from '../logger/createLogger'
 
-const logger = createLogger('server:serve')
+const logger = createLogger('server')
 
 export const serve = setup => {
   const app = express()
@@ -17,5 +17,5 @@ export const serve = setup => {
   logger.info('setup success')
 
   app.listen(3000)
-  logger.info('listening on port', 3000)
+  logger.info('serving on port', 3000)
 }

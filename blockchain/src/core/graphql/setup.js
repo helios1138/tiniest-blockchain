@@ -4,7 +4,7 @@ import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
 import { makeExecutableSchema } from 'graphql-tools'
 import { createLogger } from '../logger/createLogger'
 
-const logger = createLogger('graphql:setup')
+const logger = createLogger('graphql')
 
 const compileSchema = R.pipe(
   R.applySpec({
@@ -15,7 +15,7 @@ const compileSchema = R.pipe(
     resolvers: R.pipe(
       R.values,
       R.map(R.prop('resolvers')),
-      R.call(R.mergeDeepRight),
+      R.reduce(R.mergeDeepRight, {}),
     ),
   }),
   makeExecutableSchema,
@@ -25,5 +25,5 @@ export const setup = (app, schema) => {
   app.use('/graphql', graphqlExpress(req => ({ schema: compileSchema(schema), context: { req } })))
   app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 
-  logger.info('success')
+  logger.info('setup success')
 }
