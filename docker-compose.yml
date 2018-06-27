@@ -1,17 +1,17 @@
 version: '3'
 volumes:
   yarn_cache:
-  node_modules_node:
+  node_modules_blockchain:
 services:
-  node:
+  blockchain:
     build:
-      context: ./node
-      dockerfile: ./dev.dockerfile
+      context: blockchain
+      dockerfile: dev.dockerfile
     environment:
       INSPECT_ENABLED: ${INSPECT_NODE-}
     volumes:
       - yarn_cache:/yarn_cache
-      - node_modules_node:/app/node_modules
-      - ./node/src:/app/src:delegated
+      - node_modules_blockchain:/app/node_modules
+      - ./blockchain/src:/app/src:delegated
     ports:
       - ${INSPECT_NODE-0}:9000

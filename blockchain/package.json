@@ -1,5 +1,5 @@
 {
-  "name": "node",
+  "name": "blockchain",
   "scripts": {
     "start": "node run"
   },
