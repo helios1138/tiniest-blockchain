@@ -5,13 +5,11 @@ volumes:
 services:
   blockchain:
     build:
-      context: blockchain
-      dockerfile: dev.dockerfile
-    environment:
-      INSPECT_ENABLED: ${INSPECT_NODE-}
+      context: ./blockchain
+      dockerfile: ./dev.dockerfile
     volumes:
       - yarn_cache:/yarn_cache
       - node_modules_blockchain:/app/node_modules
       - ./blockchain/src:/app/src:delegated
     ports:
-      - ${INSPECT_NODE-0}:9000
+      - 3000:3000
