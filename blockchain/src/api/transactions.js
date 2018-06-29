@@ -18,6 +18,7 @@ export const transactions = {
 
     extend type Query {
       transactions: [Transaction!]!
+      balance (address: String!): Float!
     }
 
     extend type Mutation {
@@ -27,6 +28,7 @@ export const transactions = {
   resolvers: {
     Query: {
       transactions: () => instance(Transactions).list(),
+      balance: (_, { address }) => instance(Transactions).getBalance(address),
     },
     Mutation: {
       addTransaction: (_, { transaction }) => {

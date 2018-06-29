@@ -84,9 +84,16 @@ export const Blocks = () => {
     return block
   }
 
+  const getTransactions = R.pipe(
+    getChain,
+    R.map(R.path(['data', 'transactions'])),
+    R.flatten,
+  )
+
   return Object.freeze({
     getChain,
     setChain,
     mine,
+    getTransactions,
   })
 }

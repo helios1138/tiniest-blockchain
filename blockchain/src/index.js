@@ -10,4 +10,4 @@ serve(app => {
   setup(app, api)
 })
 
-instance(Consensus).start()
+//instance(Consensus).start()
