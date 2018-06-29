@@ -48,6 +48,8 @@ export const Blocks = () => {
     return data.chain
   }
 
+  const setChain = chain => { data.chain = chain }
+
   const addToChain = block => {
     data.chain.push(block)
   }
@@ -62,13 +64,13 @@ export const Blocks = () => {
     return proof
   }
 
-  const mine = miner => {
+  const mine = address => {
     const lastBlock = R.last(getChain())
     const lastProof = lastBlock.data.proofOfWork
 
     const proof = proofOfWork(lastProof)
 
-    transactions.add({ 'from': 'network', 'to': miner, 'amount': 1 })
+    transactions.add({ 'from': 'network', 'to': address, 'amount': 1 })
 
     const block = createNext(lastBlock, {
       proofOfWork: proof,
@@ -84,6 +86,7 @@ export const Blocks = () => {
 
   return Object.freeze({
     getChain,
+    setChain,
     mine,
   })
 }

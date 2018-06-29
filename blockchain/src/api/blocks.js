@@ -24,7 +24,7 @@ export const blocks = {
     }
 
     extend type Mutation {
-      mine (miner: String!): Block!
+      mine (address: String!): Block!
     }
   `,
   resolvers: {
@@ -32,7 +32,7 @@ export const blocks = {
       chain: () => instance(Blocks).getChain(),
     },
     Mutation: {
-      mine: (_, { miner }) => instance(Blocks).mine(miner),
+      mine: (_, { address }) => instance(Blocks).mine(address),
     },
   },
 }

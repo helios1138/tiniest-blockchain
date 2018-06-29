@@ -1,9 +1,13 @@
 import './core/logger/prettifyConsoleLog'
 
-import * as server from './core/server/serve'
-import * as graphql from './core/graphql/setup'
+import { serve } from './core/server/serve'
+import { setup } from './core/graphql/setup'
 import * as api from './api'
+import { instance } from './core/singleton/singleton'
+import { Consensus } from './consensus/consensus'
 
-server.serve(app => {
-  graphql.setup(app, api)
+serve(app => {
+  setup(app, api)
 })
+
+instance(Consensus).start()
