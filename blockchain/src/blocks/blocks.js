@@ -1,7 +1,10 @@
 import crypto from 'crypto'
 import R from 'ramda'
+import { instance } from '../core/singleton/singleton'
+import { Transactions } from '../transactions/transactions'
 
 export const Blocks = () => {
+  const transactions = instance(Transactions)
   const data = { chain: [] }
 
   const create = ({
@@ -26,14 +29,14 @@ export const Blocks = () => {
   const createRoot = () => create({
     index: 0,
     timestamp: Date.now(),
-    data: { root: 1, proofOfWork: 1 },
+    data: { transactions: [], proofOfWork: 1 },
     prevHash: '0',
   })
 
   const createNext = ({ index, hash }, data) => create({
     index: index + 1,
     timestamp: Date.now(),
-    data,
+    data: JSON.parse(JSON.stringify(data)),
     prevHash: hash,
   })
 
@@ -59,15 +62,20 @@ export const Blocks = () => {
     return proof
   }
 
-  const mine = () => {
+  const mine = miner => {
     const lastBlock = R.last(getChain())
     const lastProof = lastBlock.data.proofOfWork
 
     const proof = proofOfWork(lastProof)
 
+    transactions.add({ 'from': 'network', 'to': miner, 'amount': 1 })
+
     const block = createNext(lastBlock, {
       proofOfWork: proof,
+      transactions: transactions.list(),
     })
+
+    transactions.clear()
 
     addToChain(block)
 

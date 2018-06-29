@@ -6,10 +6,15 @@ const map = ({ data, ...rest }) => ({ data: JSON.stringify(data), ...rest })
 export const blocks = {
   // language=GraphQL Schema
   types: `
+    type BlockData {
+      transactions: [Transaction!]!
+      proofOfWork: Int!
+    }
+
     type Block {
       index: Int!
       timestamp: Date!
-      data: String!
+      data: BlockData!
       prevHash: String!
       hash: String!
     }
@@ -19,18 +24,15 @@ export const blocks = {
     }
 
     extend type Mutation {
-      mine: Block!
+      mine (miner: String!): Block!
     }
   `,
   resolvers: {
     Query: {
-      chain: () => instance(Blocks).getChain().map(map),
+      chain: () => instance(Blocks).getChain(),
     },
     Mutation: {
-      mine: () => {
-        const block = instance(Blocks).mine()
-        return map(block)
-      },
+      mine: (_, { miner }) => instance(Blocks).mine(miner),
     },
   },
 }
