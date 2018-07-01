@@ -1,0 +1,5 @@
+node_modules/
+dist/
+
+dev.dockerfile
+prod.dockerfile

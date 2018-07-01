@@ -1,52 +1,43 @@
 import R from 'ramda'
 
 import { instance } from '../core/singleton/singleton'
-import { Blocks } from '../blocks/blocks'
-import { verify } from '../verification/verify'
+import { Chain } from '../chain/chain'
 
 export const Transactions = () => {
-  const transactions = []
+  const chain = instance(Chain)
 
-  const getBalance = address => (address === 'network') ? Infinity : R.pipe(
-    () => [
-      instance(Blocks).getTransactions(),
-      transactions,
-    ],
+  const list = R.pipeP(
+    chain.listBlocks,
+    R.map(R.prop('transactions')),
     R.flatten,
-    R.reduce((balance, { from, to, amount }) => {
-      if (from === address) {
-        return balance - amount
-      } else if (to === address) {
-        return balance + amount
-      } else {
-        return balance
-      }
-    }, 0),
-  )()
+    R.concat(R.__, chain.getPendingTransactions()),
+  )
 
-  const add = (transaction, ctx) => {
-    if (!verify(transaction.from, ctx)) {
-      throw new Error('address not verified')
-    }
+  const reduceBalance = address => (balance, { from, to, amount }) =>
+    (from === address)
+      ? balance - amount
+      : (to === address)
+      ? balance + amount
+      : balance
 
+  const getBalance = address => R.pipeP(list, R.reduce(reduceBalance(address), 0))()
+
+  const add = async (transaction) => {
     const { from, amount } = transaction
-    const balance = getBalance(from)
+    const balance = await getBalance(from)
 
     if (amount > balance) {
-      throw new Error('amount bigger than balance')
+      throw new Error('transaction amount bigger than balance')
     }
 
-    transactions.push(transaction)
+    chain.addPendingTransaction(transaction)
+
+    return transaction
   }
 
-  const list = () => transactions
-
-  const clear = () => { transactions.length = 0 }
-
   return Object.freeze({
-    add,
     list,
-    clear,
+    add,
     getBalance,
   })
 }

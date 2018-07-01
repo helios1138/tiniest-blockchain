@@ -7,18 +7,18 @@ export const transactions = {
     type Transaction {
       from: String!
       to: String!
-      amount: Float!
+      amount: Int!
     }
 
     input TransactionInput {
       from: String!
       to: String!
-      amount: Float!
+      amount: Int!
     }
 
     extend type Query {
       transactions: [Transaction!]!
-      balance (address: String!): Float!
+      balance (address: String!): Int!
     }
 
     extend type Mutation {
@@ -31,10 +31,7 @@ export const transactions = {
       balance: (_, { address }) => instance(Transactions).getBalance(address),
     },
     Mutation: {
-      addTransaction: (_, { transaction }, ctx) => {
-        instance(Transactions).add(transaction, ctx)
-        return transaction
-      },
+      addTransaction: (_, { transaction }) => instance(Transactions).add(transaction),
     },
   },
 }

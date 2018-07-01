@@ -5,7 +5,7 @@ import registerServiceWorker from './registerServiceWorker'
 import forge from 'node-forge'
 
 const App = () => (
-  <div>123</div>
+  <div>1234</div>
 )
 
 // const keypair = forge.ed25519.generateKeyPair()

@@ -1,0 +1,8 @@
+{
+  "logger": {
+    "consoleWriterMinLevel": "info"
+  },
+  "mongodb": {
+    "connection": "$env.MONGO_CONNECTION"
+  }
+}
