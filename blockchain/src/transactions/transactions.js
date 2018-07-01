@@ -1,6 +1,8 @@
 import R from 'ramda'
+
 import { instance } from '../core/singleton/singleton'
 import { Blocks } from '../blocks/blocks'
+import { verify } from '../verification/verify'
 
 export const Transactions = () => {
   const transactions = []
@@ -22,11 +24,13 @@ export const Transactions = () => {
     }, 0),
   )()
 
-  const add = transaction => {
+  const add = (transaction, ctx) => {
+    if (!verify(transaction.from, ctx)) {
+      throw new Error('address not verified')
+    }
+
     const { from, amount } = transaction
     const balance = getBalance(from)
-
-    console.log({ transaction, balance })
 
     if (amount > balance) {
       throw new Error('amount bigger than balance')

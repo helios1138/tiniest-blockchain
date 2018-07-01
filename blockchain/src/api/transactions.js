@@ -31,8 +31,8 @@ export const transactions = {
       balance: (_, { address }) => instance(Transactions).getBalance(address),
     },
     Mutation: {
-      addTransaction: (_, { transaction }) => {
-        instance(Transactions).add(transaction)
+      addTransaction: (_, { transaction }, ctx) => {
+        instance(Transactions).add(transaction, ctx)
         return transaction
       },
     },

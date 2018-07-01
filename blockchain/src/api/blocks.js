@@ -32,7 +32,7 @@ export const blocks = {
       chain: () => instance(Blocks).getChain(),
     },
     Mutation: {
-      mine: (_, { address }) => instance(Blocks).mine(address),
+      mine: (_, { address }, ctx) => instance(Blocks).mine(address, ctx),
     },
   },
 }

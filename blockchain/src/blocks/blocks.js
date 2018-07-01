@@ -1,7 +1,10 @@
 import crypto from 'crypto'
 import R from 'ramda'
+import forge from 'node-forge'
+
 import { instance } from '../core/singleton/singleton'
 import { Transactions } from '../transactions/transactions'
+import { verify } from '../verification/verify'
 
 export const Blocks = () => {
   const transactions = instance(Transactions)
@@ -64,13 +67,17 @@ export const Blocks = () => {
     return proof
   }
 
-  const mine = address => {
+  const mine = (address, ctx) => {
+    if (!verify(address, ctx)) {
+      throw new Error('address not verified')
+    }
+
     const lastBlock = R.last(getChain())
     const lastProof = lastBlock.data.proofOfWork
 
     const proof = proofOfWork(lastProof)
 
-    transactions.add({ 'from': 'network', 'to': address, 'amount': 1 })
+    transactions.add({ 'from': 'network', 'to': address, 'amount': 1 }, null, true)
 
     const block = createNext(lastBlock, {
       proofOfWork: proof,
