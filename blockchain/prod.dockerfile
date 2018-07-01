@@ -7,4 +7,4 @@ COPY . .
 RUN yarn && yarn build
 
 EXPOSE 3000
-CMD node ./dist
+CMD node ./build
