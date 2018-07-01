@@ -2,6 +2,7 @@ version: '3'
 volumes:
   yarn_cache:
   node_modules_blockchain:
+  node_modules_web:
 services:
   blockchain:
     build:
@@ -13,3 +14,13 @@ services:
       - ./blockchain/src:/app/src:delegated
     ports:
       - 3000:3000
+  web:
+    build:
+      context: ./web
+      dockerfile: ./dev.dockerfile
+    volumes:
+      - yarn_cache:/yarn_cache
+      - node_modules_web:/app/node_modules
+      - ./web/src:/app/src:delegated
+    ports:
+      - 8080:3000
