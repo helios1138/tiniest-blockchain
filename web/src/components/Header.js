@@ -2,11 +2,11 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import React from 'react'
 import * as R from 'ramda'
-import * as rc from 'recompose'
+import { compose, withProps } from 'recompose'
 
 import { consumeContext } from '../hoc/context'
 
-export const Header = rc.compose(
+export const Header = compose(
   consumeContext('auth'),
   graphql(gql`
     query balance ($address: String!) {
@@ -35,10 +35,36 @@ export const Header = rc.compose(
       mine: () => mutate({ variables: { miner: publicKey } }),
     }),
   }),
-)(({ balance, auth, mine }) => (
+  graphql(gql`
+    mutation send ($transaction: TransactionInput!) {
+      addTransaction (transaction: $transaction) { amount }
+    }
+  `, {
+    props: ({ ownProps: { auth: { publicKey } }, mutate }) => ({
+      send: ({ to, amount }) => mutate({
+        variables: {
+          transaction: {
+            from: publicKey,
+            to,
+            amount,
+          },
+        },
+      }),
+    }),
+  }),
+  withProps(({ auth }) => ({
+    logOut: () => auth.setKeyPair({}),
+  })),
+)(({ balance, auth, mine, logOut, send }) => (
   <div>
     address: {auth.publicKey},
     balance: {balance / 10000}
     <button onClick={mine}>mine</button>
+    <button onClick={logOut}>logout</button>
+    <button onClick={() => {
+      send({ to: 'some', amount: 500 })
+    }}>
+      send
+    </button>
   </div>
 ))
