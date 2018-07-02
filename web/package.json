@@ -3,10 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "apollo-cache-inmemory": "^1.2.5",
+    "apollo-client": "^2.3.5",
+    "apollo-link-batch-http": "^1.2.2",
     "custom-react-scripts": "^0.2.2",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.9.2",
     "node-forge": "^0.7.5",
     "ramda": "^0.25.0",
     "react": "^16.4.1",
+    "react-apollo": "^2.1.8",
     "react-dom": "^16.4.1",
     "react-jss": "^8.6.0",
     "recompose": "^0.27.1"
