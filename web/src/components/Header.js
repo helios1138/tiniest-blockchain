@@ -62,7 +62,7 @@ export const Header = compose(
     <button onClick={mine}>mine</button>
     <button onClick={logOut}>logout</button>
     <button onClick={() => {
-      send({ to: 'some', amount: 500 })
+      send({ to: 'LudVcyhuR94iIg+u9he8+N0wmmYIDUmk7w1aUsxlWo8=', amount: 500 })
     }}>
       send
     </button>

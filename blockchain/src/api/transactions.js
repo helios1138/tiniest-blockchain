@@ -17,7 +17,7 @@ export const transactions = {
     }
 
     extend type Query {
-      transactions: [Transaction!]!
+      transactions (address: String): [Transaction!]!
       balance (address: String!): Int!
     }
 
@@ -27,7 +27,7 @@ export const transactions = {
   `,
   resolvers: {
     Query: {
-      transactions: () => instance(Transactions).list(),
+      transactions: (_, { address }) => instance(Transactions).list(address),
       balance: (_, { address }) => instance(Transactions).getBalance(address),
     },
     Mutation: {
