@@ -21,6 +21,8 @@ services:
     build:
       context: ./web
       dockerfile: ./dev.dockerfile
+    environment:
+      REACT_APP_BACKEND_URL: 'http://localhost:3000'
     volumes:
       - yarn_cache:/yarn_cache
       - node_modules_web:/app/node_modules
