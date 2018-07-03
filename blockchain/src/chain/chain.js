@@ -2,6 +2,7 @@ import crypto from 'crypto'
 
 import { instance } from '../core/singleton/singleton'
 import { Mongodb } from '../core/mongodb/mongodb'
+import { verifyAddress } from '../auth/verifyAddress'
 
 export const Chain = () => {
   const chain = instance(Mongodb).getConnection().db().collection('chain')
@@ -39,9 +40,16 @@ export const Chain = () => {
       hash: '',
     })
 
-  const listBlocks = async () => {
+  const listBlocks = async address => {
     const blocks = await chain
-      .find()
+      .find({
+        ...address && {
+          $or: [
+            { 'transactions.from': address },
+            { 'transactions.to': address },
+          ],
+        },
+      })
       .sort({ index: 1 })
       .toArray()
 
@@ -69,7 +77,11 @@ export const Chain = () => {
     return lastBlock
   }
 
-  const mineBlock = async miner => {
+  const mineBlock = async (miner, ctx) => {
+    if (!verifyAddress(miner, ctx)) {
+      throw new Error('address verification failed')
+    }
+
     const lastBlock = await getLastBlock()
 
     const newBlock = solveBlock({

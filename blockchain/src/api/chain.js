@@ -26,7 +26,7 @@ export const chain = {
       chain: () => instance(Chain).listBlocks(),
     },
     Mutation: {
-      mine: (_, { miner }) => instance(Chain).mineBlock(miner),
+      mine: (_, { miner }, ctx) => instance(Chain).mineBlock(miner, ctx),
     },
   },
 }

@@ -31,6 +31,13 @@ export const Header = compose(
       }
     }
   `, {
+    options: ({ auth: { getSignature } }) => ({
+      context: {
+        headers: {
+          get signature () { return getSignature() },
+        },
+      },
+    }),
     props: ({ ownProps: { auth: { publicKey } }, mutate }) => ({
       mine: () => mutate({ variables: { miner: publicKey } }),
     }),
@@ -40,6 +47,13 @@ export const Header = compose(
       addTransaction (transaction: $transaction) { amount }
     }
   `, {
+    options: ({ auth: { getSignature } }) => ({
+      context: {
+        headers: {
+          get signature () { return getSignature() },
+        },
+      },
+    }),
     props: ({ ownProps: { auth: { publicKey } }, mutate }) => ({
       send: ({ to, amount }) => mutate({
         variables: {
