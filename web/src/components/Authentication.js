@@ -2,13 +2,10 @@ import React from 'react'
 import forge from 'node-forge'
 
 import { consumeContext } from '../hoc/context'
-import { styles } from '../hoc/styles'
-import { flex } from '../flex'
+import { Flex } from './shared/Flex'
+import { Input } from './shared/Input'
 
 @consumeContext('auth')
-@styles({
-  root: flex({ vertical: true }),
-})
 export class Authentication extends React.Component {
   state = {
     privateKey: localStorage.getItem('privateKey') || '',
@@ -61,29 +58,30 @@ export class Authentication extends React.Component {
     })
   }
 
-
   render () {
     const { privateKey, publicKey } = this.state
-    const { classes } = this.props
 
     return (
-      <div className={classes.root}>
-        <div>
+      <Flex flex={1}
+            vertical>
+        <Flex vertical
+              flex={1} />
+        <Flex flex={1}
+              align="center">
+          <Input multiline
+                 value={privateKey}
+                 onChange={this.onPrivateKeyChanged} />
+        </Flex>
+        <Flex flex={1}
+              align="center"
+              alignVertical="flex-start">
           <button onClick={this.generateKeyPair}>generate new key</button>
-        </div>
-        <div>
-          <textarea value={privateKey}
-                    onChange={this.onPrivateKeyChanged} />
-          <div>{publicKey}</div>
-        </div>
-        <div>
           <button disabled={!publicKey}
                   onClick={this.authenticate}>
             use this key
           </button>
-          <pre>{JSON.stringify(this.state, null, 2)}</pre>
-        </div>
-      </div>
+        </Flex>
+      </Flex>
     )
   }
 }

@@ -7,12 +7,11 @@ import { Home } from './Home'
 import { apolloClient } from '../apollo/client'
 import { authContext } from '../context/authContext'
 import { styles } from '../hoc/styles'
-import { flex } from '../flex'
+import { Flex } from './shared/Flex'
 
 @authContext
 @styles({
   root: {
-    ...flex(),
     height: '100%',
   },
 })
@@ -22,7 +21,7 @@ export class Root extends React.Component {
 
     return (
       <ApolloProvider client={apolloClient}>
-        <div className={classes.root}>
+        <Flex className={classes.root}>
           <BrowserRouter>
             <Switch>
               <Route path="/authentication"
@@ -39,7 +38,7 @@ export class Root extends React.Component {
                      )} />
             </Switch>
           </BrowserRouter>
-        </div>
+        </Flex>
       </ApolloProvider>
     )
   }

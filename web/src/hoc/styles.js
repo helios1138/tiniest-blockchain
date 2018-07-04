@@ -1,5 +1,5 @@
 import injectSheet from 'react-jss'
-import { compose, getDisplayName, setDisplayName } from 'recompose'
+import { compose, setDisplayName } from 'recompose'
 import * as R from 'ramda'
 
 export const styles = (...args) => {
@@ -12,8 +12,8 @@ export const styles = (...args) => {
     displayName = null
   }
 
-  return Component => compose(
+  return compose(
     injectSheet(styles, options),
-    setDisplayName(displayName || getDisplayName(Component)),
-  )(Component)
+    displayName ? setDisplayName(displayName) : R.identity,
+  )
 }

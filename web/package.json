@@ -12,6 +12,7 @@
     "graphql-tag": "^2.9.2",
     "node-forge": "^0.7.5",
     "normalize.css": "^8.0.0",
+    "prop-types": "^15.6.2",
     "ramda": "^0.25.0",
     "react": "^16.4.1",
     "react-apollo": "^2.1.8",
