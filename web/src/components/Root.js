@@ -7,11 +7,12 @@ import { Home } from './Home'
 import { apolloClient } from '../apollo/client'
 import { authContext } from '../context/authContext'
 import { styles } from '../hoc/styles'
+import { flex } from '../flex'
 
 @authContext
 @styles({
   root: {
-    display: 'flex',
+    ...flex(),
     height: '100%',
   },
 })

@@ -2,8 +2,13 @@ import React from 'react'
 import forge from 'node-forge'
 
 import { consumeContext } from '../hoc/context'
+import { styles } from '../hoc/styles'
+import { flex } from '../flex'
 
 @consumeContext('auth')
+@styles({
+  root: flex({ vertical: true }),
+})
 export class Authentication extends React.Component {
   state = {
     privateKey: localStorage.getItem('privateKey') || '',
@@ -59,9 +64,10 @@ export class Authentication extends React.Component {
 
   render () {
     const { privateKey, publicKey } = this.state
+    const { classes } = this.props
 
     return (
-      <div>
+      <div className={classes.root}>
         <div>
           <button onClick={this.generateKeyPair}>generate new key</button>
         </div>
