@@ -1,7 +1,7 @@
 FROM node:8.11.3-alpine
 
 RUN \
-  apk add --no-cache htop bash python; \
+  apk add --no-cache htop bash python make g++; \
   echo "alias ll='ls -laF --color=auto'" > ~/.bashrc;
 
 WORKDIR /app

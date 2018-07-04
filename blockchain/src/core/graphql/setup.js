@@ -22,7 +22,11 @@ const compileSchema = R.pipe(
 )
 
 export const setup = (app, schema) => {
-  app.use('/graphql', graphqlExpress(req => ({ schema: compileSchema(schema), context: { req } })))
+  app.use('/graphql', graphqlExpress(req => ({
+    schema: compileSchema(schema),
+    context: { req },
+    debug: false,
+  })))
   app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 
   logger.info('setup success')
