@@ -1,19 +1,13 @@
 {
-  "name": "tiniest-blockchain",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:helios1138/tiniest-blockchain.git",
-  "author": "helios1138 <revan.den@gmail.com>",
-  "license": "MIT",
   "scripts": {
-    "start": "node run"
-  },
-  "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-function-bind": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0"
+    "up": "docker-compose up -d --build",
+    "down": "docker-compose down",
+    "start": "docker-compose start",
+    "stop": "docker-compose stop",
+    "restart": "docker-compose restart",
+    "logs": "./shell/logs.sh",
+    "test": "./shell/test.sh",
+    "bash": "./shell/bash.sh",
+    "reset": "./shell/reset.sh"
   }
 }

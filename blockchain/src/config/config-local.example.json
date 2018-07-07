@@ -1,0 +1,6 @@
+{
+  "_extends": "./config.json",
+  "logger": {
+    "consoleWriterMinLevel": "debug"
+  }
+}
